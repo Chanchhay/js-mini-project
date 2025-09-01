@@ -1,115 +1,197 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="./output.css" rel="stylesheet">
+  <title>Cambodia's Sacred Temples</title>
+  <link rel="stylesheet" href="output.css">
   <link rel="stylesheet" href="styles/styles.css">
 </head>
 
-<body class="bg-amber-300">
-  <!-- navbar -->
-  <header>
-    <nav class="bg-white border-gray-200 py-2.5 dark:bg-gray-900">
-      <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
-        <a href="#" class="flex items-center">
-          <img src="https://www.svgrepo.com/show/499962/music.svg" class="h-6 mr-3 sm:h-9" alt="Landwind Logo">
-          <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Landwind</span>
-        </a>
-        <div class="flex items-center lg:order-2">
-          <div class="hidden mt-2 mr-4 sm:inline-block">
-            <span></span>
+<body class="min-h-screen gradient-bg overflow-x-hidden">
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 p-4">
+    <div class="max-w-7xl mx-auto">
+      <div class="glass rounded-2xl px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-8">
+            <h1 class="text-2xl font-bold text-white cursor-pointer" onclick="showPage('home')">🏛️ Cambodia Temples
+            </h1>
+            <div class="hidden md:flex space-x-6">
+              <a href="#" onclick="showPage('home')"
+                class="nav-link text-white/80 hover:text-white transition-colors">Home</a>
+              <a href="#" onclick="showPage('temples')"
+                class="nav-link text-white/80 hover:text-white transition-colors">Temples</a>
+              <a href="#" onclick="showPage('favorites')"
+                class="nav-link text-white/80 hover:text-white transition-colors">Favorites</a>
+              <a href="#" onclick="showPage('about')"
+                class="nav-link text-white/80 hover:text-white transition-colors">About</a>
+            </div>
           </div>
+          <div class="flex items-center space-x-4">
+            <div class="relative hidden sm:block">
+              <input id="search-input" type="text" placeholder="Search temples..."
+                class="glass rounded-full px-4 py-2 text-white placeholder-white/60 focus:outline-none search-glow w-64"
+                onkeyup="searchTemples()" />
+              <span class="absolute right-3 top-2.5 text-white/60">🔍</span>
+            </div>
+            <button class="md:hidden text-white" onclick="toggleMobileMenu()">☰</button>
+          </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden mt-4 space-y-2 hidden">
+          <a href="#" onclick="showPage('home')"
+            class="block text-white/80 hover:text-white transition-colors py-2">Home</a>
+          <a href="#" onclick="showPage('temples')"
+            class="block text-white/80 hover:text-white transition-colors py-2">Temples</a>
+          <a href="#" onclick="showPage('favorites')"
+            class="block text-white/80 hover:text-white transition-colors py-2">Favorites</a>
+          <a href="#" onclick="showPage('about')"
+            class="block text-white/80 hover:text-white transition-colors py-2">About</a>
+          <input id="mobile-search" type="text" placeholder="Search temples..."
+            class="glass rounded-full px-4 py-2 text-white placeholder-white/60 focus:outline-none w-full mt-2"
+            onkeyup="searchTemples()" />
+        </div>
+      </div>
+    </div>
+  </nav>
 
-          <a href="https://themesberg.com/product/tailwind-css/landing-page"
-            class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">Download</a>
-          <button data-collapse-toggle="mobile-menu-2" type="button"
-            class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="mobile-menu-2" aria-expanded="true">
-            <span class="sr-only">Open main menu</span>
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd"
-                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                clip-rule="evenodd"></path>
-            </svg>
-            <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd"
-                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                clip-rule="evenodd"></path>
-            </svg>
+  <!-- Main Content -->
+  <div class="pt-32 pb-16 px-4">
+    <div class="max-w-7xl mx-auto">
+      <!-- Home Page -->
+      <div id="home-page" class="page-content">
+        <div class="text-center mb-16 animate-slide-up">
+          <h1 class="text-6xl md:text-8xl font-bold text-white mb-6 animate-float">
+            Sacred Temples
+          </h1>
+          <p class="text-xl md:text-2xl text-white/80 mb-8 max-w-3xl mx-auto">
+            Discover the magnificent temples of Cambodia, where ancient Khmer architecture meets spiritual heritage
+          </p>
+          <button onclick="showPage('temples')"
+            class="glass-card px-8 py-4 rounded-full text-white text-lg font-semibold hover:scale-105 transition-transform duration-300">
+            Explore Temples ✨
           </button>
         </div>
-        <div class="items-center justify-between w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
-          <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-            <li>
-              <a href="#"
-                class="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white"
-                aria-current="page">Home</a>
-            </li>
-            <li>
-              <a href="#"
-                class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Company</a>
-            </li>
-            <li>
-              <a href="#"
-                class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Marketplace</a>
-            </li>
-            <li>
-              <a href="#"
-                class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Features</a>
-            </li>
-            <li>
-              <a href="#"
-                class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Team</a>
-            </li>
-            <li>
-              <a href="#"
-                class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
-            </li>
-          </ul>
+
+        <!-- Featured Temples Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          <div class="glass-card rounded-3xl p-6 hover:scale-105 transition-transform duration-300">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/20171126_Angkor_Wat_4712_DxO.jpg"
+              alt="Angkor Wat" class="w-full h-48 object-cover rounded-2xl mb-4">
+            <h3 class="text-2xl font-bold text-white mb-2">Angkor Wat</h3>
+            <p class="text-white/70">The iconic heart of Angkor—an immense temple-mountain surrounded by moats and
+              causeways.</p>
+          </div>
+          <div class="glass-card rounded-3xl p-6 hover:scale-105 transition-transform duration-300">
+            <img
+              src="https://raw.githubusercontent.com/Chanchhay/js-mini-project/refs/heads/master/src/images/image_2025-08-15_08-38-20.png"
+              alt="Bayon" class="w-full h-48 object-cover rounded-2xl mb-4">
+            <h3 class="text-2xl font-bold text-white mb-2">Bayon</h3>
+            <p class="text-white/70">A mesmerizing maze of towers carved with serene faces at the center of Angkor Thom.
+            </p>
+          </div>
+          <div class="glass-card rounded-3xl p-6 hover:scale-105 transition-transform duration-300">
+            <img
+              src="https://raw.githubusercontent.com/Chanchhay/js-mini-project/refs/heads/master/src/images/image_2025-08-15_08-48-08.png"
+              alt="Banteay Srei" class="w-full h-48 object-cover rounded-2xl mb-4">
+            <h3 class="text-2xl font-bold text-white mb-2">Banteay Srei</h3>
+            <p class="text-white/70">A small but exquisite temple renowned for pink sandstone and jewel‑like carvings.
+            </p>
+          </div>
         </div>
       </div>
-    </nav>
 
-  </header>
-  <main>
-    <ul id="temple-cards" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></ul>
-  </main>
-
-
-
-
-  <script>
-    async function loadTemples() {
-      const res = await fetch('./cambodia_temples_with_images.json');
-      const data = await res.json();
-      const list = document.getElementById('temple-cards');
-
-      data.temples.forEach(t => {
-        const img = t.images?.[0]; // pick first image
-        const li = document.createElement('li');
-        li.className = "rounded-xl overflow-hidden border border-gray-200 bg-white shadow glass-card";
-        li.innerHTML = `
-      <figure class="aspect-[4/3] bg-gray-100 overflow-hidden">
-        <img src="${img?.url || ''}" alt="${img?.title || t.name}" class="w-full h-full object-cover"/>
-      </figure>
-      <div class="p-4">
-        <h3 class="font-semibold text-lg">${t.name}</h3>
-        <p class="text-sm text-gray-600">${t.location?.province || ''}, ${t.location?.country || ''}</p>
-        <ul class="mt-3 text-sm text-gray-800 list-disc list-inside">
-          ${(t.highlights || []).slice(0, 3).map(h => `<li>${h}</li>`).join('')}
-        </ul>
-        ${img ? `<p class="mt-3 text-[12px] text-gray-500">Photo: ${img.author} • ${img.license}</p>` : ''}
+      <!-- Temples Page -->
+      <div id="temples-page" class="page-content hidden">
+        <div class="text-center mb-12">
+          <h1 class="text-5xl font-bold text-white mb-4">All Temples</h1>
+          <p class="text-xl text-white/80">Explore Cambodia's magnificent temple heritage</p>
+        </div>
+        <div id="temples-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+          <!-- Temples will be populated here -->
+        </div>
       </div>
-    `;
-        list.appendChild(li);
-      });
-    }
-    loadTemples();
-  </script>
 
-  <script src="https://unpkg.com/flowbite@1.4.1/dist/flowbite.js"></script>
+      <!-- Temple Detail Page -->
+      <div id="temple-detail-page" class="page-content hidden">
+        <div id="temple-detail-content">
+          <!-- Temple details will be populated here -->
+        </div>
+      </div>
+
+      <!-- Favorites Page -->
+      <div id="favorites-page" class="page-content hidden">
+        <div class="text-center mb-12">
+          <h1 class="text-5xl font-bold text-white mb-4">Favorite Temples</h1>
+          <p class="text-xl text-white/80">Your curated collection of sacred sites</p>
+        </div>
+        <div id="favorites-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Favorites will be populated here -->
+        </div>
+        <div id="no-favorites" class="text-center py-16 hidden">
+          <div class="glass-card rounded-3xl p-12 max-w-md mx-auto">
+            <span class="text-6xl mb-4 block">💫</span>
+            <h3 class="text-2xl font-bold text-white mb-4">No Favorites Yet</h3>
+            <p class="text-white/70 mb-6">Start exploring temples and add your favorites!</p>
+            <button onclick="showPage('temples')"
+              class="glass px-6 py-3 rounded-full text-white font-semibold hover:scale-105 transition-transform">
+              Explore Temples
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- About Page -->
+      <div id="about-page" class="page-content hidden">
+        <div class="text-center mb-12">
+          <h1 class="text-5xl font-bold text-white mb-4">About Cambodia's Temples</h1>
+        </div>
+        <div class="max-w-4xl mx-auto">
+          <div class="glass-card rounded-3xl p-8 mb-8">
+            <h2 class="text-3xl font-bold text-white mb-6">Khmer Heritage</h2>
+            <p class="text-white/80 text-lg leading-relaxed mb-6">
+              The temples of Cambodia represent one of the world's most remarkable architectural achievements. Built
+              during the height of the Khmer Empire (9th-15th centuries), these sacred sites showcase the incredible
+              skill and devotion of ancient builders.
+            </p>
+            <p class="text-white/80 text-lg leading-relaxed">
+              From the iconic Angkor Wat to the mysterious faces of Bayon, each temple tells a unique story of religious
+              devotion, architectural innovation, and artistic mastery that continues to inspire visitors from around
+              the world.
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-8">
+            <div class="glass-card rounded-3xl p-6">
+              <h3 class="text-2xl font-bold text-white mb-4">🏛️ Architecture</h3>
+              <p class="text-white/70">Marvel at the intricate stone carvings, towering spires, and precise engineering
+                that has withstood centuries.</p>
+            </div>
+            <div class="glass-card rounded-3xl p-6">
+              <h3 class="text-2xl font-bold text-white mb-4">🕉️ Spirituality</h3>
+              <p class="text-white/70">Experience the sacred atmosphere where Hindu and Buddhist traditions merge in
+                harmony.</p>
+            </div>
+            <div class="glass-card rounded-3xl p-6">
+              <h3 class="text-2xl font-bold text-white mb-4">🌅 Experience</h3>
+              <p class="text-white/70">Witness breathtaking sunrises and sunsets that transform these ancient stones
+                into pure magic.</p>
+            </div>
+            <div class="glass-card rounded-3xl p-6">
+              <h3 class="text-2xl font-bold text-white mb-4">📱 Preservation</h3>
+              <p class="text-white/70">Support ongoing conservation efforts to preserve these treasures for future
+                generations.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="script/main.js"></script>
 </body>
 
 </html>
