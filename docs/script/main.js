@@ -1,80 +1,80 @@
-// Global variables
-let templeData = [];
-let favorites = JSON.parse(localStorage.getItem('temple-favorites') || '[]');
-let currentPage = 'home';
+        // Global variables
+        let templeData = [];
+        let favorites = JSON.parse(localStorage.getItem('temple-favorites') || '[]');
+        let currentPage = 'home';
 
-// API endpoint
-const API_URL = 'https://temples-api.chanchhay07.workers.dev/';
+        // API endpoint
+        const API_URL = 'https://angkor-api.onrender.com/temples';
 
-// Fetch temple data
-async function fetchTemples() {
-  try {
-    const response = await fetch(API_URL);
-    templeData = await response.json();
-    renderTemples();
-  } catch (error) {
-    console.error('Error fetching temples:', error);
-    // Fallback data in case API is unavailable
-    templeData = [
-      {
-        "id": "angkor-wat",
-        "title": "Angkor Wat",
-        "summary": "The iconic heart of Angkor—an immense temple-mountain surrounded by moats and causeways.",
-        "descriptions": [
-          { "label": "Overview", "text": "Built in the Khmer imperial era, Angkor Wat blends grand symmetry with detailed bas‑reliefs and soaring towers." },
-          { "label": "Details", "text": "Visitors come for sunrise reflections in the moat, kilometer‑long reliefs of epics and history." }
-        ],
-        "images": [{ "role": "cover", "url": "https://upload.wikimedia.org/wikipedia/commons/d/d4/20171126_Angkor_Wat_4712_DxO.jpg" }],
-        "tags": ["temple", "Angkor", "Khmer", "Hindu", "Buddhist", "sunrise"],
-        "location": { "province": "Siem Reap" }
-      }
-    ];
-    renderTemples();
-  }
-}
+        // Fetch temple data
+        async function fetchTemples() {
+            try {
+                const response = await fetch(API_URL);
+                templeData = await response.json();
+                renderTemples();
+            } catch (error) {
+                console.error('Error fetching temples:', error);
+                // Fallback data in case API is unavailable
+                templeData = [
+                    {
+                        "id": "angkor-wat",
+                        "title": "Angkor Wat",
+                        "summary": "The iconic heart of Angkor—an immense temple-mountain surrounded by moats and causeways.",
+                        "descriptions": [
+                            {"label": "Overview", "text": "Built in the Khmer imperial era, Angkor Wat blends grand symmetry with detailed bas‑reliefs and soaring towers."},
+                            {"label": "Details", "text": "Visitors come for sunrise reflections in the moat, kilometer‑long reliefs of epics and history."}
+                        ],
+                        "images": [{"role": "cover", "url": "https://upload.wikimedia.org/wikipedia/commons/d/d4/20171126_Angkor_Wat_4712_DxO.jpg"}],
+                        "tags": ["temple", "Angkor", "Khmer", "Hindu", "Buddhist", "sunrise"],
+                        "location": {"province": "Siem Reap"}
+                    }
+                ];
+                renderTemples();
+            }
+        }
 
-// Show page function
-function showPage(page, templeId = null) {
-  // Hide all pages
-  document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+        // Show page function
+        function showPage(page, templeId = null) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
 
-  // Show selected page
-  const pageElement = document.getElementById(`${page}-page`);
-  if (pageElement) {
-    pageElement.classList.remove('hidden');
-    pageElement.classList.add('animate-fade-in');
-  }
+            // Show selected page
+            const pageElement = document.getElementById(`${page}-page`);
+            if (pageElement) {
+                pageElement.classList.remove('hidden');
+                pageElement.classList.add('animate-fade-in');
+            }
 
-  // Update navigation
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.classList.remove('text-white', 'font-bold');
-    link.classList.add('text-white/80');
-  });
+            // Update navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('text-white', 'font-bold');
+                link.classList.add('text-white/80');
+            });
 
-  currentPage = page;
+            currentPage = page;
 
-  // Page-specific logic
-  switch (page) {
-    case 'temples':
-      renderTemples();
-      break;
-    case 'favorites':
-      renderFavorites();
-      break;
-    case 'temple-detail':
-      if (templeId) renderTempleDetail(templeId);
-      break;
-  }
-}
+            // Page-specific logic
+            switch(page) {
+                case 'temples':
+                    renderTemples();
+                    break;
+                case 'favorites':
+                    renderFavorites();
+                    break;
+                case 'temple-detail':
+                    if (templeId) renderTempleDetail(templeId);
+                    break;
+            }
+        }
 
-// Render temples grid
-function renderTemples(templesToRender = null) {
-  const temples = templesToRender || templeData;
-  const grid = document.getElementById('temples-grid');
+        // Render temples grid
+        function renderTemples(templesToRender = null) {
+            const temples = templesToRender || templeData;
+            const grid = document.getElementById('temples-grid');
 
-  if (!grid) return;
+            if (!grid) return;
 
-  grid.innerHTML = temples.map(temple => `
+            grid.innerHTML = temples.map(temple => `
                 <div class="glass-card rounded-3xl overflow-hidden hover:scale-105 transition-transform duration-300 animate-slide-up">
                     <div class="relative">
                         <img src="${temple.images[0]?.url || '/api/placeholder/400/300'}"
@@ -108,15 +108,15 @@ function renderTemples(templesToRender = null) {
                     </div>
                 </div>
             `).join('');
-}
+        }
 
-// Render temple detail
-function renderTempleDetail(templeId) {
-  const temple = templeData.find(t => t.id === templeId);
-  if (!temple) return;
+        // Render temple detail
+        function renderTempleDetail(templeId) {
+            const temple = templeData.find(t => t.id === templeId);
+            if (!temple) return;
 
-  const content = document.getElementById('temple-detail-content');
-  content.innerHTML = `
+            const content = document.getElementById('temple-detail-content');
+            content.innerHTML = `
                 <div class="animate-slide-up">
                     <button onclick="showPage('temples')" class="glass px-4 py-2 rounded-full text-white mb-6 hover:bg-white/20 transition-colors">
                         ← Back to Temples
@@ -184,20 +184,20 @@ function renderTempleDetail(templeId) {
                     </div>
                 </div>
             `;
-}
+        }
 
-// Render favorites
-function renderFavorites() {
-  const favoriteTemples = templeData.filter(temple => favorites.includes(temple.id));
-  const grid = document.getElementById('favorites-grid');
-  const noFavorites = document.getElementById('no-favorites');
+        // Render favorites
+        function renderFavorites() {
+            const favoriteTemples = templeData.filter(temple => favorites.includes(temple.id));
+            const grid = document.getElementById('favorites-grid');
+            const noFavorites = document.getElementById('no-favorites');
 
-  if (favoriteTemples.length === 0) {
-    grid.innerHTML = '';
-    noFavorites.classList.remove('hidden');
-  } else {
-    noFavorites.classList.add('hidden');
-    grid.innerHTML = favoriteTemples.map(temple => `
+            if (favoriteTemples.length === 0) {
+                grid.innerHTML = '';
+                noFavorites.classList.remove('hidden');
+            } else {
+                noFavorites.classList.add('hidden');
+                grid.innerHTML = favoriteTemples.map(temple => `
                     <div class="glass-card rounded-3xl overflow-hidden hover:scale-105 transition-transform duration-300">
                         <div class="relative">
                             <img src="${temple.images[0]?.url || '/api/placeholder/400/300'}"
@@ -223,60 +223,60 @@ function renderFavorites() {
                         </div>
                     </div>
                 `).join('');
-  }
-}
+            }
+        }
 
-// Toggle favorite
-function toggleFavorite(templeId) {
-  if (favorites.includes(templeId)) {
-    favorites = favorites.filter(id => id !== templeId);
-  } else {
-    favorites.push(templeId);
-  }
+        // Toggle favorite
+        function toggleFavorite(templeId) {
+            if (favorites.includes(templeId)) {
+                favorites = favorites.filter(id => id !== templeId);
+            } else {
+                favorites.push(templeId);
+            }
 
-  localStorage.setItem('temple-favorites', JSON.stringify(favorites));
+            localStorage.setItem('temple-favorites', JSON.stringify(favorites));
 
-  // Update UI
-  if (currentPage === 'temples') renderTemples();
-  if (currentPage === 'favorites') renderFavorites();
-  if (currentPage === 'temple-detail') {
-    // Update heart button in detail view
-    document.querySelectorAll('.favorite-heart').forEach(heart => {
-      if (heart.onclick.toString().includes(templeId)) {
-        heart.classList.toggle('active', favorites.includes(templeId));
-        heart.innerHTML = favorites.includes(templeId) ? '❤️' : '🤍';
-      }
-    });
-  }
-}
+            // Update UI
+            if (currentPage === 'temples') renderTemples();
+            if (currentPage === 'favorites') renderFavorites();
+            if (currentPage === 'temple-detail') {
+                // Update heart button in detail view
+                document.querySelectorAll('.favorite-heart').forEach(heart => {
+                    if (heart.onclick.toString().includes(templeId)) {
+                        heart.classList.toggle('active', favorites.includes(templeId));
+                        heart.innerHTML = favorites.includes(templeId) ? '❤️' : '🤍';
+                    }
+                });
+            }
+        }
 
-// Search temples
-function searchTemples() {
-  const query = document.getElementById('search-input').value.toLowerCase() ||
-    document.getElementById('mobile-search').value.toLowerCase();
+        // Search temples
+        function searchTemples() {
+            const query = document.getElementById('search-input').value.toLowerCase() ||
+                         document.getElementById('mobile-search').value.toLowerCase();
 
-  if (!query) {
-    renderTemples();
-    return;
-  }
+            if (!query) {
+                renderTemples();
+                return;
+            }
 
-  const filteredTemples = templeData.filter(temple =>
-    temple.title.toLowerCase().includes(query) ||
-    temple.summary.toLowerCase().includes(query) ||
-    temple.tags.some(tag => tag.toLowerCase().includes(query)) ||
-    temple.location.province.toLowerCase().includes(query)
-  );
+            const filteredTemples = templeData.filter(temple =>
+                temple.title.toLowerCase().includes(query) ||
+                temple.summary.toLowerCase().includes(query) ||
+                temple.tags.some(tag => tag.toLowerCase().includes(query)) ||
+                temple.location.province.toLowerCase().includes(query)
+            );
 
-  renderTemples(filteredTemples);
-}
+            renderTemples(filteredTemples);
+        }
 
-// Mobile menu toggle
-function toggleMobileMenu() {
-  const menu = document.getElementById('mobile-menu');
-  menu.classList.toggle('hidden');
-}
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
 
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-  fetchTemples();
-});
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchTemples();
+        });
