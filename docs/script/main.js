@@ -4,7 +4,7 @@ let favorites = JSON.parse(localStorage.getItem('temple-favorites') || '[]');
 let currentPage = 'home';
 
 // API endpoint
-const API_URL = 'https://angkor-api.onrender.com/temples';
+const API_URL = 'https://temples-api.chanchhay07.workers.dev/';
 
 // Fetch temple data
 async function fetchTemples() {
@@ -75,45 +75,38 @@ function renderTemples(templesToRender = null) {
   if (!grid) return;
 
   grid.innerHTML = temples.map(temple => `
-                <div class="glass-card rounded-3xl overflow-hidden hover:scale-105 transition-transform duration-300 animate-slide-up flex flex-col h-full">
-    <div class="relative">
-        <img src="${temple.images[0]?.url || '/api/placeholder/400/300'}"
-             alt="${temple.title}"
-             class="w-full h-64 object-cover"
-             onerror="this.src='/api/placeholder/400/300'">
-        <button
-            onclick="toggleFavorite('${temple.id}')"
-            class="absolute top-4 right-4 favorite-heart ${favorites.includes(temple.id) ? 'active' : ''} text-2xl bg-white/20 backdrop-blur rounded-full p-2 hover:bg-white/30"
-        >
-            ${favorites.includes(temple.id) ? '❤️' : '🤍'}
-        </button>
-    </div>
-
-    <!-- Content wrapper with flex-grow -->
-    <div class="p-6 flex flex-col flex-grow">
-        <div class="flex items-center justify-between mb-2">
-            <h3 class="text-2xl font-bold text-white">${temple.title}</h3>
-            <span class="text-sm text-white/60">${temple.location.province}</span>
-        </div>
-        <p class="text-white/70 mb-4 line-clamp-3">${temple.summary}</p>
-        <div class="flex flex-wrap gap-2 mb-4">
-            ${temple.tags.slice(0, 3).map(tag => `
-                <span class="glass px-3 py-1 rounded-full text-xs text-white/80">${tag}</span>
-            `).join('')}
-        </div>
-
-        <!-- Pushes button to bottom -->
-        <div class="mt-auto">
-            <button
-                onclick="showPage('temple-detail', '${temple.id}')"
-                class="w-full glass px-4 py-3 rounded-full text-white font-semibold hover:bg-white/20 transition-colors"
-            >
-                Explore Temple ✨
-            </button>
-        </div>
-    </div>
-</div>
-
+                <div class="glass-card rounded-3xl overflow-hidden hover:scale-105 transition-transform duration-300 animate-slide-up">
+                    <div class="relative">
+                        <img src="${temple.images[0]?.url || '/api/placeholder/400/300'}"
+                             alt="${temple.title}"
+                             class="w-full h-64 object-cover"
+                             onerror="this.src='/api/placeholder/400/300'">
+                        <button
+                            onclick="toggleFavorite('${temple.id}')"
+                            class="absolute top-4 right-4 favorite-heart ${favorites.includes(temple.id) ? 'active' : ''} text-2xl bg-white/20 backdrop-blur rounded-full p-2 hover:bg-white/30"
+                        >
+                            ${favorites.includes(temple.id) ? '❤️' : '🤍'}
+                        </button>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-2xl font-bold text-white">${temple.title}</h3>
+                            <span class="text-sm text-white/60">${temple.location.province}</span>
+                        </div>
+                        <p class="text-white/70 mb-4 line-clamp-3">${temple.summary}</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${temple.tags.slice(0, 3).map(tag => `
+                                <span class="glass px-3 py-1 rounded-full text-xs text-white/80">${tag}</span>
+                            `).join('')}
+                        </div>
+                        <button
+                            onclick="showPage('temple-detail', '${temple.id}')"
+                            class="w-full glass px-4 py-3 rounded-full text-white font-semibold hover:bg-white/20 transition-colors"
+                        >
+                            Explore Temple ✨
+                        </button>
+                    </div>
+                </div>
             `).join('');
 }
 
